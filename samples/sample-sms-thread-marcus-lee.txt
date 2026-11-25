@@ -1,0 +1,40 @@
+# SAMPLE DATA - made-up customer and business, for demo only
+# Export: SMS conversation
+# Business: Brightside Landscaping (example)   Customer: Marcus Lee (example)
+# Format: [date time] Sender: message
+
+[2026-09-03 4:12 PM] Brightside (Sam): Hi Marcus, this is Sam from Brightside Landscaping. Thanks for filling out the quote form! Is now a good time for a quick call about your yard?
+[2026-09-03 5:47 PM] Marcus Lee: hey Sam. texting is way easier for me than calls honestly, I'm on a job site most of the day
+[2026-09-03 5:48 PM] Marcus Lee: anything after 5 works if you do need to call
+[2026-09-03 5:52 PM] Brightside (Sam): Totally fine, text it is. What were you hoping to get done?
+[2026-09-03 6:03 PM] Marcus Lee: mainly the hedges along the driveway are out of control. and the back lawn has bare patches since we got the dog
+[2026-09-03 6:04 PM] Marcus Lee: oh important - whatever you put on the lawn has to be pet safe. no harsh chemicals. we also have 2 little kids who live out there
+[2026-09-03 6:10 PM] Brightside (Sam): Good to know. We have an organic fertilizer program that's pet and kid safe. I'll put that in the quote.
+[2026-09-03 6:11 PM] Marcus Lee: perfect
+[2026-09-05 9:30 AM] Brightside (Sam): Quote sent to your email: hedge trimming $180, organic overseeding for the back lawn $240, and optional mulch refresh for the front beds $260.
+[2026-09-05 7:15 PM] Marcus Lee: thanks! hedges and overseeding yes. can we hold off on mulch til spring? trying to keep it under 300 a month right now
+[2026-09-05 7:16 PM] Marcus Lee: and can you split it across 2 months? september and october
+[2026-09-05 7:30 PM] Brightside (Sam): No problem. Hedges in September, overseeding in early October. Mulch noted for spring.
+[2026-09-05 7:31 PM] Marcus Lee: 👍
+[2026-09-12 8:02 AM] Brightside (Sam): Reminder: crew arrives tomorrow (Saturday) at 8 AM for the hedges.
+[2026-09-12 12:40 PM] Marcus Lee: ugh can they come after 9 on saturdays? the blowers wake up the baby lol
+[2026-09-12 12:41 PM] Marcus Lee: weekdays early is fine, it's just weekends
+[2026-09-12 12:55 PM] Brightside (Sam): Done, moved to 9:30 AM. I'll note no early weekend visits on your account.
+[2026-09-12 1:02 PM] Marcus Lee: you're the best
+[2026-09-13 11:48 AM] Marcus Lee: hedges look amazing. also the dog (Biscuit) gets out if the side gate is left open. can the crew always latch it behind them?
+[2026-09-13 12:05 PM] Brightside (Sam): Absolutely, I'll add that to the crew notes. Glad you like how they turned out!
+[2026-09-20 6:22 PM] Marcus Lee: quick q, do you guys do patios or fire pits? thinking about something for next summer
+[2026-09-20 6:40 PM] Brightside (Sam): We do! Pavers and fire pits. Want me to put together some options?
+[2026-09-20 6:58 PM] Marcus Lee: not yet. my wife Jen makes the call on the big stuff so I'd want to show her ideas first. maybe after the holidays
+[2026-09-20 6:59 PM] Marcus Lee: she likes the natural stone look more than concrete
+[2026-09-20 7:05 PM] Brightside (Sam): Sounds good. I'll check back in January with natural stone options.
+[2026-10-04 7:45 AM] Brightside (Sam): Overseeding is done! Keep the back lawn watered for the next 2 weeks and keep Biscuit off it if you can.
+[2026-10-04 5:31 PM] Marcus Lee: will do. can you email the invoice instead of mailing it? I lose paper stuff
+[2026-10-04 5:32 PM] Marcus Lee: and is there a way to just autopay with a card each month
+[2026-10-04 5:50 PM] Brightside (Sam): Yes to both. I'll send an email invoice and an autopay setup link.
+[2026-10-18 6:10 PM] Marcus Lee: grass is coming in nicely. my neighbor across the street (the Patels) asked who did it, gave them your number
+[2026-10-18 6:15 PM] Brightside (Sam): That's great to hear, thank you for the referral!
+[2026-11-08 5:20 PM] Brightside (Sam): Hi Marcus, we're booking fall leaf cleanups. Want one before Thanksgiving?
+[2026-11-08 8:47 PM] Marcus Lee: yes please, any weekday is fine. budget is a little tighter this month with the holidays so just the basic cleanup, no extras
+[2026-11-08 8:49 PM] Marcus Lee: and honestly I'd be interested in a monthly maintenance plan next year if it's around the same 250-300 range
+[2026-11-08 9:02 PM] Brightside (Sam): Booked for Tuesday Nov 18. I'll send maintenance plan options in the new year.

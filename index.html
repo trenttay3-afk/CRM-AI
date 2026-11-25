@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://api.anthropic.com; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Prompt Studio</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<div class="app">
+  <nav class="rail" aria-label="Main">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">{ }</div>
+      <div><div class="brand-name">Prompt Studio</div><div class="brand-sub">AI templates for your CRM</div></div>
+    </div>
+    <div class="nav">
+      <button type="button" id="navTemplates" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
+        Templates <span class="count" id="countT"></span>
+      </button>
+      <button type="button" id="navConvos">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v10H10l-4 4v-4H5z"/></svg>
+        Conversations <span class="count" id="countC"></span>
+      </button>
+      <button type="button" id="navSettings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l2 2M14 9l2 2"/></svg>
+        API key
+      </button>
+    </div>
+    <div class="rail-foot">
+      <span class="dot" id="keyStatus">No API key</span>
+      <span class="dot ok">Saved in this browser</span>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Library -->
+    <section class="view" id="viewLibrary">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Library</span>
+          <h1>Templates</h1>
+          <p>Reusable prompts with merge fields. Pick one to fill in a customer record or conversation and run it through Claude.</p>
+        </div>
+        <div class="ws-actions">
+          <button class="btn" type="button" id="exportBtn">Export workspace</button>
+          <label class="btn" for="importIn">Import</label>
+          <input type="file" id="importIn" accept=".json,application/json" hidden>
+          <button class="btn primary" type="button" id="newBtn">+ New template</button>
+        </div>
+      </div>
+      <div class="keywarn" id="keyBanner" hidden>
+        <span>Add your Anthropic API key to run templates. It stays in this browser and is sent only to Anthropic.</span>
+        <button class="btn small primary" type="button" id="keyBannerBtn">Add API key</button>
+      </div>
+      <span class="hint" id="importNote"></span>
+      <div class="grid" id="tgrid"></div>
+    </section>
+
+    <!-- Workspace -->
+    <section class="view" id="viewEditor" hidden>
+      <div class="crumbs"><button type="button" id="backBtn">Templates</button><span aria-hidden="true">/</span><span id="crumbName">New template</span></div>
+      <div class="ws-head">
+        <div class="grow">
+          <input class="title-input" id="tName" type="text" placeholder="Untitled template" aria-label="Template name">
+          <div class="row mt4">
+            <div class="field f180"><label for="tObject">CRM object</label><input type="text" id="tObject" placeholder="Lead, Contact, Deal"></div>
+            <div class="field f280"><label for="tDesc">What it's for</label><input type="text" id="tDesc" placeholder="One line a teammate would understand"></div>
+          </div>
+        </div>
+        <div class="ws-actions">
+          <span class="saved-note" id="savedNote"></span>
+          <button class="btn danger" id="delBtn" type="button">Delete</button>
+          <button class="btn primary" id="saveBtn" type="button">Save</button>
+        </div>
+      </div>
+
+      <div class="bench">
+        <section class="panel" aria-labelledby="buildH">
+          <div class="panel-head"><h2 id="buildH"><span class="num">1</span>Instructions</h2></div>
+          <div class="panel-body">
+            <div class="field">
+              <label for="tBody">Prompt</label>
+              <textarea id="tBody" class="code" spellcheck="false" placeholder="Write the instructions for Claude. Wrap anything that changes per record in double braces, like {{lead_name}}."></textarea>
+              <span class="hint">Type <code class="merge">{{field_name}}</code> to add an input. Letters, numbers and underscores.</span>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="tFormat">Output</label>
+                <select id="tFormat"><option value="text">Text (emails, notes)</option><option value="json">Fields (JSON for the CRM)</option></select>
+              </div>
+              <div class="field">
+                <label for="tTier">Model</label>
+                <select id="tTier"><option value="quick">Fast (Haiku 5.5)</option><option value="default">Balanced (Sonnet 5.5)</option><option value="complex">Most capable (Opus 5.5)</option></select>
+              </div>
+            </div>
+            <div class="field">
+              <span class="lbl">Inputs</span>
+              <div class="inputs-table" id="inputsTable"></div>
+              <span class="hint" id="noInputs">No merge fields yet.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="runH">
+          <div class="panel-head"><h2 id="runH"><span class="num">2</span>Run</h2><button class="btn ghost small" id="resetBtn" type="button">Reset to sample values</button></div>
+          <div class="panel-body">
+            <div id="runFields" class="inputs-table"></div>
+            <div class="run-bar">
+              <button class="btn primary lg" id="runBtn" type="button">Run with Claude</button>
+              <button class="btn" id="stopBtn" type="button" hidden>Stop</button>
+            </div>
+            <div class="output" aria-live="polite">
+              <div class="output-head">
+                <span id="outMeta">Result</span>
+                <span class="gap6">
+                  <button class="btn small" id="rawBtn" type="button" hidden>Show JSON</button>
+                  <button class="btn small" id="copyBtn" type="button" disabled>Copy</button>
+                </span>
+              </div>
+              <div class="output-body placeholder" id="outBody">Run the template to see Claude's answer here.</div>
+            </div>
+            <details class="drawer"><summary>Exact prompt sent to Claude</summary><pre id="compiled"></pre></details>
+            <details class="drawer"><summary>Call this from your CRM (API request)</summary><pre id="apiSnippet"></pre></details>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Conversations -->
+    <section class="view" id="viewConvos" hidden>
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Data</span>
+          <h1>Conversations</h1>
+          <p>Text, email or chat threads exported from your messaging tools. Templates with a conversation input can read a whole thread.</p>
+        </div>
+      </div>
+      <div class="upload" id="dropZone">
+        <div><b>Add a conversation file</b><div class="hint">Plain text (.txt), CSV with time, sender and message columns, or a JSON list of messages. Up to 200 KB.</div></div>
+        <div class="row end">
+          <div class="field"><label for="fileIn">File</label><input type="file" id="fileIn" accept=".txt,.csv,.json,.log,text/plain,text/csv,application/json"></div>
+          <div class="field"><label for="upName">Name</label><input type="text" id="upName" placeholder="e.g. Marcus Lee, SMS"></div>
+          <div class="field f160"><label for="upChannel">Channel</label>
+            <select id="upChannel"><option>SMS</option><option>Email</option><option>WhatsApp</option><option>Web chat</option><option>Facebook / Instagram</option><option>Other</option></select></div>
+          <button class="btn primary" id="upBtn" type="button" disabled>Add</button>
+        </div>
+        <span class="hint" id="upNote"></span>
+      </div>
+      <div class="clist" id="clist"></div>
+    </section>
+
+    <!-- Settings -->
+    <section class="view settings" id="viewSettings" hidden>
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Settings</span>
+          <h1>Anthropic API key</h1>
+          <p>Each person uses their own key. Runs are billed to that key's Anthropic account.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="field">
+          <label for="keyIn">API key</label>
+          <input type="password" id="keyIn" autocomplete="off" spellcheck="false" placeholder="sk-ant-...">
+        </div>
+        <label class="check"><input type="checkbox" id="rememberKey"> <span>Remember on this device. Leave this off on shared computers: the key is then forgotten when you close the tab.</span></label>
+        <div class="ws-actions">
+          <button class="btn primary" type="button" id="saveKeyBtn">Use this key</button>
+          <button class="btn" type="button" id="testKeyBtn">Test key</button>
+          <button class="btn danger" type="button" id="forgetKeyBtn">Forget key</button>
+          <span class="hint" id="keyNote"></span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Where your key goes</h2>
+        <ul class="note-list">
+          <li>This page has no server. Your key is kept in this browser tab, or in this browser's storage if you choose to remember it.</li>
+          <li>The page's security policy only allows network requests to Anthropic's API, so the key can't be sent anywhere else by this page.</li>
+          <li>Templates, conversations and your key are never saved to GitHub. Export your workspace to back up templates and conversations; the export never includes the key.</li>
+          <li>Use a key you created just for this tool, with a spending limit set in the Anthropic Console, and delete it when you're done testing.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="assets/seeds.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
